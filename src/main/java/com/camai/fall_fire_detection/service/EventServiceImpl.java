@@ -68,12 +68,29 @@ public class EventServiceImpl implements EventService {
     public Event getEventByMessageId(String messageId) {
         try {
             logger.info("Attempting to find event by messageId: {}", messageId);
+            
+            // Thêm kiểm tra messageId
+            if (messageId == null || messageId.trim().isEmpty()) {
+                logger.warn("MessageId is null or empty");
+                return null;
+            }
+            
             Event event = eventRepository.findByMessageId(messageId);
+            
+            // Kiểm tra và xử lý các trường null
+            if (event != null && event.getKey() != null) {
+                // Đảm bảo các giá trị số không null
+                if (event.getCategory() == null) {
+                    event.getKey().setCategory(0); // hoặc giá trị mặc định khác
+                }
+            }
+            
             logger.info("Found event: {}", event);
             return event;
+            
         } catch (Exception e) {
-            logger.error("Error finding event by messageId: ", e);
-            throw e;
+            logger.error("Error finding event by messageId: {}", messageId, e);
+            throw new RuntimeException("Error retrieving event", e);
         }
     }
     

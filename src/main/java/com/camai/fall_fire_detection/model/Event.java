@@ -4,7 +4,6 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
-import com.datastax.oss.driver.api.core.type.DataType;
 
 import java.time.Instant;
 
@@ -34,7 +33,8 @@ public class Event {
     private EventStatus status;
     
     @Column("category")
-    private String category;    
+    @CassandraType(type = CassandraType.Name.INT)
+    private Integer category;
     
     @Column("created_at")
     @CassandraType(type = CassandraType.Name.TIMESTAMP)
@@ -62,8 +62,8 @@ public class Event {
     public EventStatus getStatus() { return status; }
     public void setStatus(EventStatus status) { this.status = status; }
     
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Integer getCategory() { return category; }
+    public void setCategory(Integer category) { this.category = category; }
     
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
