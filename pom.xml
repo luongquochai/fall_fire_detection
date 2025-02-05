@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.2.2</version>
+        <relativePath/>
     </parent>
     <groupId>com.camai</groupId>
     <artifactId>fall_fire_detection</artifactId>
@@ -92,6 +92,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datastax.oss</groupId>
+            <artifactId>java-driver-core</artifactId>
+            <version>4.17.0</version>
         </dependency>
     </dependencies>
 

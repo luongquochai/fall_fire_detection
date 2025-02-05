@@ -19,7 +19,7 @@ public class Event {
     private String deviceId;
     
     @Column("event_type")
-    @CassandraType(type = CassandraType.Name.TEXT)
+    // @CassandraType(type = CassandraType.Name.TEXT)
     private EventType eventType;
     
     @Column("description")
@@ -29,7 +29,7 @@ public class Event {
     private String thumbnailUrl;
 
     @Column("status")
-    @CassandraType(type = CassandraType.Name.TEXT)
+    // @CassandraType(type = CassandraType.Name.TEXT)
     private EventStatus status;
     
     @Column("category")

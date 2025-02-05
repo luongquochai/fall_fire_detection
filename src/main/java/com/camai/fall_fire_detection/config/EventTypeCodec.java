@@ -13,11 +13,11 @@ public class EventTypeCodec extends MappingCodec<String, EventType> {
 
     @Override
     protected EventType innerToOuter(String value) {
-        return value != null ? EventType.valueOf(value) : null;
+        return value != null ? EventType.fromValue(value) : EventType.UNKNOWN;
     }
 
     @Override
     protected String outerToInner(EventType value) {
-        return value != null ? value.name() : null;
+        return value != null ? value.getValue() : EventType.UNKNOWN.getValue();
     }
 } 
