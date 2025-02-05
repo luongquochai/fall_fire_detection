@@ -1,0 +1,38 @@
+spring:
+  data:
+  cache:
+    type: hazelcast
+  cassandra:
+    keyspace-name: fall_fire_detection
+    contact-points: localhost
+    port: 9042
+    schema-action: CREATE_IF_NOT_EXISTS
+    local-datacenter: datacenter1
+    request:
+      timeout: 10s
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
+
+server:
+  port: 8081
+  servlet:
+    context-path: /fall-fire
+
+logging:
+  level:
+    com.camai.fall_fire_detection: DEBUG
+    org.springframework.data.cassandra: INFO
+hazelcast:
+  network:
+    join:
+      multicast:
+        enabled: true
+  map:
+    eventCache:
+      time-to-live-seconds: 300
+      max-idle-seconds: 200
+      eviction:
+        eviction-policy: LRU
+        max-size-policy: PER_NODE
+        size: 10000
