@@ -19,6 +19,6 @@ public interface EventRepository extends CassandraRepository<Event, EventKey> {
     @Query("SELECT * FROM events_by_user WHERE user_id = ?0 AND bucket = ?1 AND device_id IN ?2 AND event_type = ?3")
     List<Event> findByUserIdAndDevicesAndType(String userId, int bucket, List<String> deviceIds, EventType eventType);
     
-    @Query("SELECT * FROM events_by_message WHERE message_id = ?0")
+    @Query("SELECT * FROM events_by_message WHERE message_id = ?0 LIMIT 1")
     Event findByMessageId(String messageId);
 } 
