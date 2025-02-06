@@ -1,0 +1,12 @@
+spring:
+  data:
+    cassandra:
+      keyspace-name: test_keyspace
+      contact-points: localhost
+      port: 9042
+      local-datacenter: datacenter1
+      schema-action: CREATE_IF_NOT_EXISTS
+
+logging:
+  level:
+    org.springframework.data.cassandra: DEBUG
