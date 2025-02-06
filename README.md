@@ -349,3 +349,56 @@ src/main/java/com/camai/fallfire/
 │   └── EventController.java
 └── exception/
 └── EventException.java
+
+
+Class test sử dụng @SpringBootTest để chạy trong môi trường Spring Boot hoàn chỉnh.
+testBulkEventCreation() sẽ chạy test với 3 kích thước: 100, 1000 và 10000 request.
+runBulkTest() thực hiện:
+Tạo danh sách events cần test
+Sử dụng ExecutorService để gửi request bất đồng bộ
+Đo thời gian thực hiện
+In ra các thông số:
+Tổng thời gian
+Thời gian trung bình mỗi request
+Số request/giây
+generateEvents() tạo dữ liệu test với:
+ID ngẫu nhiên
+Giả lập 10 user khác nhau
+Giả lập 5 device khác nhau
+Các thông tin khác được set tự động
+
+
+2025-02-07 02:54:20 [main] INFO  c.c.f.s.EventServicePerformanceTest - Test results for 10000 requests:
+2025-02-07 02:54:20 [main] INFO  c.c.f.s.EventServicePerformanceTest - Total time: 41141 ms
+2025-02-07 02:54:20 [main] INFO  c.c.f.s.EventServicePerformanceTest - Average time per request: 4.1141 ms
+2025-02-07 02:54:20 [main] INFO  c.c.f.s.EventServicePerformanceTest - Requests per second: 243.06652730852434
+
+
+Với test case chạy 10,000 requests:
+1. Tổng thời gian xử lý (Total time):
+41,141 milliseconds = 41.141 giây
+Đây là tổng thời gian để xử lý toàn bộ 10,000 requests
+Thời gian trung bình cho mỗi request (Average time per request):
+4.1141 milliseconds/request
+Con số này khá tốt vì mỗi request chỉ mất khoảng 4ms để xử lý
+Thời gian này bao gồm cả việc tạo event và lưu vào database
+3. Số lượng request xử lý được mỗi giây (Requests per second - RPS):
+243.07 requests/second
+Nghĩa là hệ thống có thể xử lý được khoảng 243 requests trong 1 giây
+Với con số này, hệ thống có thể xử lý:
+Khoảng 14,584 requests/phút
+Khoảng 875,040 requests/giờ
+Đánh giá:
+1. Hiệu năng:
+Với thời gian xử lý trung bình 4ms/request, đây là một con số khá tốt cho việc xử lý và lưu trữ dữ liệu
+Khả năng xử lý 243 requests/giây là đủ tốt cho nhiều ứng dụng thông thường
+2. Khả năng mở rộng:
+Nếu cần xử lý nhiều requests hơn, bạn có thể cân nhắc:
+Tối ưu hóa code và queries
+Tăng cấu hình phần cứng
+Thêm caching
+Sử dụng load balancing
+Điểm cần lưu ý:
+Đây là kết quả trong môi trường test, trong môi trường thực tế có thể sẽ khác
+Cần theo dõi thêm memory usage và CPU usage
+Nên test với nhiều kịch bản khác nhau (ví dụ: concurrent users)
