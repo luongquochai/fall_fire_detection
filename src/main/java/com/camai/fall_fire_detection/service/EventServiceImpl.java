@@ -59,9 +59,36 @@ public class EventServiceImpl implements EventService {
             Instant endTime,
             int pageSize,
             String pagingState) {
-            
-        return customEventRepository.searchEvents(
-            userId, deviceIds, eventType, startTime, endTime, pageSize, pagingState);
+        try {
+            logger.info("Searching events for userId: {}, deviceIds: {}, eventType: {}, " +
+                       "startTime: {}, endTime: {}", 
+                       userId, deviceIds, eventType, startTime, endTime);
+
+            // Validate input parameters
+            if (userId == null || userId.trim().isEmpty()) {
+                throw new IllegalArgumentException("UserId cannot be null or empty");
+            }
+
+            if (pageSize <= 0) {
+                pageSize = 20; // Default page size
+            }
+
+            // Ensure valid time range
+            if (startTime != null && endTime != null && startTime.isAfter(endTime)) {
+                throw new IllegalArgumentException("Start time cannot be after end time");
+            }
+
+            Slice<Event> events = customEventRepository.searchEvents(
+                userId, deviceIds, eventType, startTime, endTime, pageSize, pagingState
+            );
+
+            logger.info("Found {} events", events.getContent().size());
+            return events;
+
+        } catch (Exception e) {
+            logger.error("Error searching events: ", e);
+            throw new RuntimeException("Error searching events", e);
+        }
     }
     
     @Override
